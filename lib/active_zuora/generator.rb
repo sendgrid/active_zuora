@@ -30,7 +30,6 @@ module ActiveZuora
           # Skip the zObject base class, we define our own.
           next if class_name == "zObject"
 
-          class_name[0] = class_name[0].upcase
           zuora_class = Class.new
           @class_nesting.const_set(class_name, zuora_class)
           @classes << zuora_class
@@ -65,6 +64,9 @@ module ActiveZuora
             when "decimal"
               zuora_class.field field_name, :decimal,
                 :zuora_name => zuora_name, :array => is_array
+            when "date"
+              zuora_class.field field_name, :date,
+                :zuora_name => zuora_name, :array => is_array
             when "dateTime"
               zuora_class.field field_name, :datetime,
                 :zuora_name => zuora_name, :array => is_array
@@ -73,7 +75,7 @@ module ActiveZuora
                 :zuora_name => zuora_name, :array => is_array,
                 :class_name => zuora_class.nested_class_name(field_type.split(':').last)
             else
-              puts "Unknown field type: #{field_type}"
+              puts "Unkown field type: #{field_type}"
             end
           end # each element
 
@@ -151,14 +153,6 @@ module ActiveZuora
         # the body field will be lazy loaded in when needed.
         exclude_from_queries :regenerate_invoice_pdf, :body, :bill_run_id
         lazy_load :body
-      end
-
-      customize 'InvoiceItem' do
-        exclude_from_queries :product_rate_plan_charge_id
-      end
-
-      customize 'BillingPreviewRequest' do
-        include BillingPreview
       end
 
       customize 'InvoiceItemAdjustment' do
