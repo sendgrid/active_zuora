@@ -1,3 +1,13 @@
+#### v2.4.0
+Custom SendGrid code.
+
+- Remove this commit: 84e7d0ce920513cd3b7a55a4931c30b7a0d0a85a
+-- Lazy load Active Currencies on Product Rate Plans
+-- This breaks reload calls as it tries to lazy load something that isn't created yet.
+
+- Merge in PR #56: Adds Date Field
+-- This is required for WSDL 69 and higher
+
 #### v2.3.1
 *  Add billing preview capability
 *  Capitalize first letter of wsdl object name to ensure that it is a valid Ruby constant
