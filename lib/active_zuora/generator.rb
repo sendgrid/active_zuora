@@ -76,7 +76,7 @@ module ActiveZuora
                 :zuora_name => zuora_name, :array => is_array,
                 :class_name => zuora_class.nested_class_name(field_type.split(':').last)
             else
-              puts "Unkown field type: #{field_type}"
+              puts "Unknown field type: #{field_type}"
             end
           end # each element
 
@@ -154,6 +154,14 @@ module ActiveZuora
         # the body field will be lazy loaded in when needed.
         exclude_from_queries :regenerate_invoice_pdf, :body, :bill_run_id
         lazy_load :body
+      end
+
+      customize 'InvoiceItem' do
+        exclude_from_queries :product_rate_plan_charge_id
+      end
+
+      customize 'BillingPreviewRequest' do
+        include BillingPreview
       end
 
       customize 'InvoiceItemAdjustment' do
